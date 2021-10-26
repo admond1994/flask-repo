@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
@@ -10,7 +12,8 @@ from resources.store import Store, StoreList
 from db import db
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' # tell SQLAlchemy where to find the DB file
+# 1nd arg (remote env variable), 2nd arg (local env variable)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db') # tell SQLAlchey where to find the DB filem
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False   # turn off the tracker for SQLalchemy (reduce resources used)
 app.secret_key = 'jose'
 api = Api(app) # add resource to API (Every resource needs to be a class)
