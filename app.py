@@ -13,7 +13,8 @@ from db import db
 
 app = Flask(__name__)
 # 1st arg (remote env variable), 2nd arg (local env variable)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URI', 'sqlite:///data.db') # tell SQLAlchey where to find the DB filem
+db_url = os.environ.get('DATABASE_URL', 'sqlite:///data.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace("://", "ql://", 1) # tell SQLAlchey where to find the DB filem
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False   # turn off the tracker for SQLalchemy (reduce resources used)
 app.secret_key = 'jose'
 api = Api(app) # add resource to API (Every resource needs to be a class)
